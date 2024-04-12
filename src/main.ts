@@ -1,0 +1,19 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  app.setGlobalPrefix("api/v1"); // lo que va aestar fijo en la url
+
+  app.useGlobalPipes(
+    new ValidationPipe({ // configurando que de forma global haga las validaciones de entrada..
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true, // que trasnforme, cuando pueda, los datos.., el que hace la magia, para que no tenga que parsear algunos parametros
+    })
+  );
+  await app.listen(3000);
+}
+bootstrap();
