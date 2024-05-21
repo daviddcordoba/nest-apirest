@@ -8,9 +8,9 @@ async function bootstrap() {
   app.setGlobalPrefix("api/v1"); // lo que va aestar fijo en la url
 
   app.useGlobalPipes(
-    new ValidationPipe({ // configurando que de forma global haga las validaciones de entrada..
+    new ValidationPipe({ // configurando que de forma global haga las validaciones de entrada...
       whitelist: true,
-      forbidNonWhitelisted: true,
+      forbidNonWhitelisted: true, // este le tira un error al cliente si me manda algo que no esta bien
       transform: true, // que trasnforme, cuando pueda, los datos.., el que hace la magia, para que no tenga que parsear algunos parametros
     })
   );

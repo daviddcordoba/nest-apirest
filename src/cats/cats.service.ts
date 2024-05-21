@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Cat } from './entities/cat.entity';
+import { Repository } from 'typeorm';
+import { Breed } from 'src/breeds/entities/breed.entity';
 
 @Injectable()
 export class CatsService {
-  create(createCatDto: CreateCatDto) {
-    return 'This action adds a new cat';
+
+  constructor(
+    @InjectRepository(Cat)
+    private readonly catRepository: Repository<Cat>,
+
+    @InjectRepository(Breed)
+    private readonly breedRepository: Repository<Breed>
+  ){
+
   }
 
-  findAll() {
-    return `This action returns all cats`;
+  async create(createCatDto: CreateCatDto) {
+    const breed = await this.breedRepository.findOneBy({name: createCatDto.breed})
+
+    if(!breed){
+      throw new BadRequestException('Breed not found') // lanza un error de exepcion
+    }
+
+    return await this.catRepository.save({
+      ...createCatDto,
+      breed
+    }); // aca si guardo
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cat`;
+  async findAll() {
+    return await this.catRepository.find();
   }
 
-  update(id: number, updateCatDto: UpdateCatDto) {
-    return `This action updates a #${id} cat`;
+  async findOne(id: number) {
+    return await this.catRepository.findOneBy({id});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cat`;
+  async update(id: number, updateCatDto: UpdateCatDto) {
+    return //await this.catRepository.update(id,updateCatDto);
+  }
+
+  async remove(id: number) {
+    return
+    //return await this.catRepository.softDelete({id}); // se le pasa id
+    //return this.catRepository.softRemove({id}); // se le pasa instancia
+
   }
 }

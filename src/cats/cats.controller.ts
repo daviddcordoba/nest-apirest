@@ -8,28 +8,29 @@ export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Post()
-  create(@Body() createCatDto: CreateCatDto) {
+  async create(@Body() createCatDto: CreateCatDto) { // aca veo que pasa por el dto, si no pasa -> error
     return this.catsService.create(createCatDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.catsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number) {
     return this.catsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateCatDto: UpdateCatDto) {
+  async update(@Param('id') id: number, @Body() updateCatDto: UpdateCatDto) { 
     return this.catsService.update(id, updateCatDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number) {
     return this.catsService.remove(id);
   }
 }
 
+//el patch podemos hacer modificaciones parciales
