@@ -5,7 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix("api/v1"); // lo que va aestar fijo en la url
+  app.setGlobalPrefix("api/v1"); // lo que va a estar fijo en la url
 
   app.useGlobalPipes(
     new ValidationPipe({ // configurando que de forma global haga las validaciones de entrada...
@@ -14,6 +14,8 @@ async function bootstrap() {
       transform: true, // que trasnforme, cuando pueda, los datos.., el que hace la magia, para que no tenga que parsear algunos parametros
     })
   );
+
   await app.listen(3000);
 }
+
 bootstrap();

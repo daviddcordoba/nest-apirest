@@ -15,9 +15,7 @@ export class CatsService {
 
     @InjectRepository(Breed)
     private readonly breedRepository: Repository<Breed>
-  ){
-
-  }
+  ){}
 
   async create(createCatDto: CreateCatDto) {
     const breed = await this.breedRepository.findOneBy({name: createCatDto.breed})
@@ -30,6 +28,7 @@ export class CatsService {
       ...createCatDto,
       breed
     }); // aca si guardo
+  
   }
 
   async findAll() {
