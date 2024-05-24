@@ -15,7 +15,7 @@ export class User {//como se va a comportar el usuario en la db, que propidades 
     password:string;
 
     @Column({default:'user'})
-    rol:string;
+    role:string;
 
     @DeleteDateColumn()
     deletedAt:Date;
