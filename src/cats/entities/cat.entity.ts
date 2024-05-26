@@ -1,5 +1,6 @@
 import { Breed } from "src/breeds/entities/breed.entity"
-import { Column, DeleteDateColumn, Entity, ManyToOne} from "typeorm"
+import { User } from "src/users/entities/user.entity"
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne} from "typeorm"
 
 // REPOSITORY PATTERN with typeorm(orm que se encarga de todo lo pesado con la db)
 
@@ -22,7 +23,14 @@ export class Cat {
     @ManyToOne(()=>Breed,(breed)=> breed.id,{
         eager:true // para que traiga la raza con un findOne
     })
-        breed:Breed;
+    breed:Breed;
+
+    @ManyToOne(() => User)
+    @JoinColumn({name:'userEmail',referencedColumnName:'email'})
+    user:User;
+    
+    @Column()
+    userEmail: string;
 }
 
 /*cada vez que queramos trabajr con db en nest, atacamos aca. 
